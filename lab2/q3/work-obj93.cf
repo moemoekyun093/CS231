@@ -1,0 +1,7 @@
+v 4
+file . "CHORD.vhd" "c4d92988ca0c21a5846f4df4d481762a42254dfc" "20230910105617.390":
+  entity chordencoder at 1( 0) + 0 on 257;
+  architecture sakura of chordencoder at 14( 303) + 0 on 258;
+file . "CHORD_test.vhd" "7961b4d33ca1e9accd9363143a5c8eea37d90e87" "20230910105617.390":
+  entity ascii_read_test at 1( 0) + 0 on 259;
+  architecture reader of ascii_read_test at 9( 139) + 0 on 260;
