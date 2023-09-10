@@ -55,9 +55,9 @@ BEGIN
                 input_buffer(inp_buf) := a;
                 inp_buf := inp_buf + 1;
             END IF;
-            --     report integer'image(inp_buf);
-            --     report integer'image(inp_itr);
-            -- report integer'image(flush);
+            REPORT INTEGER'image(inp_buf);
+            REPORT INTEGER'image(inp_itr);
+            REPORT INTEGER'image(flush);
             -- report integer'image(inp_itr) & integer'image(inp_buf) & integer'image(flush);
             IF flush = 0 AND inp_itr <= inp_buf AND inp_buf /= 1 THEN
                 IF input_buffer(inp_itr) = sharp THEN
@@ -91,6 +91,7 @@ BEGIN
                     -- report integer'image(flush);
                 END IF;
             ELSIF flush = 1 AND inp_itr <= inp_buf THEN
+                REPORT "abc";
                 IF input_buffer(inp_itr) = sharp THEN
                     FOR i IN j TO 23 LOOP
                         IF input_buffer(inp_itr - 1) = check(i) OR input_buffer(inp_itr - 1) = check2(i) THEN
@@ -209,14 +210,14 @@ BEGIN
                     flush := 0;
 
                 END IF;
-            ELSE
+            ELSIF inp_itr /= 1 THEN
                 flag := false;
 
             END IF;
         END IF;
 
         -- report integer'image(buf_itr) & integer'image(buf_top);
-        -- report integer'image(add_pt+1) & integer'image(inp_buf-1);
+        REPORT INTEGER'image(add_pt) & INTEGER'image(inp_buf - 1);
         IF flag = false AND flag2 = true THEN
             FOR i IN add_pt + 1 TO inp_buf - 1 LOOP
                 output_buffer(buf_itr) := input_buffer(i);
@@ -231,7 +232,7 @@ BEGIN
                 data_valid <= '1';
                 buf_top := buf_top + 1;
 
-            ELSIF inp_itr <= inp_buf THEN
+            ELSIF inp_itr <= inp_buf + 1 AND flag = true THEN
                 z <= "00000000";
                 data_valid <= '1';
             ELSE
