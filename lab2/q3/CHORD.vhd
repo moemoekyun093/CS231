@@ -14,8 +14,8 @@ END ENTITY;
 ARCHITECTURE sakura OF CHORDEncoder IS
     TYPE inbuf IS ARRAY (0 TO 32) OF STD_LOGIC_VECTOR (7 DOWNTO 0);
     TYPE outbuf IS ARRAY (0 TO 32) OF STD_LOGIC_VECTOR (7 DOWNTO 0);
-    TYPE mytable IS ARRAY(0 TO 23) OF STD_LOGIC_VECTOR (7 DOWNTO 0);
-    SIGNAL sharp : STD_LOGIC_VECTOR(7 DOWNTO 0) := "00100011";
+    TYPE mytable IS ARRAY(0 TO 35) OF STD_LOGIC_VECTOR (7 DOWNTO 0);
+    SIGNAL sharp : STD_LOGIC_VECTOR(7 DOWNTO 0) := "00011111";
     SIGNAL major : STD_LOGIC_VECTOR(7 DOWNTO 0) := "01001101";
     SIGNAL m : STD_LOGIC_VECTOR(7 DOWNTO 0) := "01101101";
     SIGNAL s : STD_LOGIC_VECTOR(7 DOWNTO 0) := "01110011";
@@ -26,8 +26,10 @@ ARCHITECTURE sakura OF CHORDEncoder IS
 
 BEGIN
     check <= ("01000011", "01100100", "01000100", "01100101", "01000101", "01000110", "01100111", "01000111", "01100001", "01000001", "01100010", "01000010",
+        "01000011", "01100100", "01000100", "01100101", "01000101", "01000110", "01100111", "01000111", "01100001", "01000001", "01100010", "01000010",
         "01000011", "01100100", "01000100", "01100101", "01000101", "01000110", "01100111", "01000111", "01100001", "01000001", "01100010", "01000010");
     check2 <= ("01000011", "01100100", "01000100", "01100101", "01100110", "01000110", "01100111", "01000111", "01100001", "01000001", "01100010", "01100011",
+        "01000011", "01100100", "01000100", "01100101", "01100110", "01000110", "01100111", "01000111", "01100001", "01000001", "01100010", "01100011",
         "01000011", "01100100", "01000100", "01100101", "01100110", "01000110", "01100111", "01000111", "01100001", "01000001", "01100010", "01100011");
 
     kofuku :
@@ -55,13 +57,13 @@ BEGIN
                 input_buffer(inp_buf) := a;
                 inp_buf := inp_buf + 1;
             END IF;
-            REPORT INTEGER'image(inp_buf);
-            REPORT INTEGER'image(inp_itr);
-            REPORT INTEGER'image(flush);
+            -- REPORT INTEGER'image(inp_buf);
+            -- REPORT INTEGER'image(inp_itr);
+            -- REPORT INTEGER'image(flush);
             -- report integer'image(inp_itr) & integer'image(inp_buf) & integer'image(flush);
             IF flush = 0 AND inp_itr <= inp_buf AND inp_buf /= 1 THEN
                 IF input_buffer(inp_itr) = sharp THEN
-                    FOR i IN 0 TO 23 LOOP
+                    FOR i IN 0 TO 35 LOOP
                         IF input_buffer(inp_itr - 1) = check(i) OR input_buffer(inp_itr - 1) = check2(i) THEN
                             j := i + 1;
                             EXIT;
@@ -74,7 +76,7 @@ BEGIN
                     inp_itr := inp_itr + 2;
                     add_pt := add_pt + 2;
                 ELSE
-                    FOR i IN INTEGER RANGE 0 TO 23 LOOP
+                    FOR i IN INTEGER RANGE 0 TO 35 LOOP
                         IF input_buffer(inp_itr - 1) = check(i) OR input_buffer(inp_itr - 1) = check2(i) THEN
                             j := i;
                             -- report boolean'image(input_buffer(inp_itr-1)=check(i));
@@ -91,16 +93,16 @@ BEGIN
                     -- report integer'image(flush);
                 END IF;
             ELSIF flush = 1 AND inp_itr <= inp_buf THEN
-                REPORT "abc";
+                -- REPORT "abc";
                 IF input_buffer(inp_itr) = sharp THEN
-                    FOR i IN j TO 23 LOOP
+                    FOR i IN j TO 35 LOOP
                         IF input_buffer(inp_itr - 1) = check(i) OR input_buffer(inp_itr - 1) = check2(i) THEN
                             k := i + 1;
                             EXIT;
                         END IF;
                     END LOOP;
                 ELSE
-                    FOR i IN j TO 23 LOOP
+                    FOR i IN j TO 35 LOOP
                         IF input_buffer(inp_itr - 1) = check(i) OR input_buffer(inp_itr - 1) = check2(i) THEN
                             k := i;
                             EXIT;
@@ -121,14 +123,14 @@ BEGIN
                 END IF;
             ELSIF flush = 2 AND inp_itr <= inp_buf THEN
                 IF input_buffer(inp_itr) = sharp THEN
-                    FOR i IN k TO 23 LOOP
+                    FOR i IN k TO 35 LOOP
                         IF input_buffer(inp_itr - 1) = check(i) OR input_buffer(inp_itr - 1) = check2(i) THEN
                             l := i + 1;
                             EXIT;
                         END IF;
                     END LOOP;
                 ELSE
-                    FOR i IN k TO 23 LOOP
+                    FOR i IN k TO 35 LOOP
                         IF input_buffer(inp_itr - 1) = check(i) OR input_buffer(inp_itr - 1) = check2(i) THEN
                             l := i;
                             EXIT;
@@ -178,14 +180,14 @@ BEGIN
                 END IF;
             ELSIF flush = 3 AND inp_itr <= inp_buf THEN
                 IF input_buffer(inp_itr) = sharp THEN
-                    FOR i IN l TO 23 LOOP
+                    FOR i IN l TO 35 LOOP
                         IF input_buffer(inp_itr - 1) = check(i) OR input_buffer(inp_itr - 1) = check2(i) THEN
                             n := i + 1;
                             EXIT;
                         END IF;
                     END LOOP;
                 ELSE
-                    FOR i IN l TO 23 LOOP
+                    FOR i IN l TO 35 LOOP
                         IF input_buffer(inp_itr - 1) = check(i) OR input_buffer(inp_itr - 1) = check2(i) THEN
                             n := i;
                             EXIT;
@@ -217,12 +219,12 @@ BEGIN
         END IF;
 
         -- report integer'image(buf_itr) & integer'image(buf_top);
-        REPORT INTEGER'image(add_pt) & INTEGER'image(inp_buf - 1);
+        -- REPORT INTEGER'image(add_pt) & INTEGER'image(inp_buf - 1);
         IF flag = false AND flag2 = true THEN
             FOR i IN add_pt + 1 TO inp_buf - 1 LOOP
                 output_buffer(buf_itr) := input_buffer(i);
                 buf_itr := buf_itr + 1;
-                REPORT "hello";
+                -- REPORT "hello";
             END LOOP;
             flag2 := false;
         END IF;
